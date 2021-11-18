@@ -2,106 +2,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
-enum Status {
-    single,
-    married,
-    divorcee
-}
 
-class person{
-    int id;
-    String firstName, lastName;
-    Status status;
-
-    public person(int id, String firstName, String lastName, Status status) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return "person{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", status=" + status +
-                '}';
-    }
-
-}
-
-class Teacher extends person{
-    int wage;
-
-    public Teacher(int id, String firstName, String lastName, Status status, int wage) {
-        super(id, firstName, lastName, status);
-        this.wage = wage;
-    }
-
-    @Override
-    public String toString() {
-        return "teacher{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", status=" + status +
-                ", wage=" + wage +
-                '}';
-    }
-}
-
-class Student extends person{
-    ArrayList<Score> scores;
-
-    public Student(int id, String firstName, String lastName, Status status, ArrayList<Score> scores) {
-        super(id, firstName, lastName, status);
-        this.scores = scores;
-    }
-
-    public void addScore(String course, int value){
-        this.scores.add(new Score(course, value));
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", status=" + status +
-                '}';
-    }
-
-    public int getAverageScore(){
-        int avg = 0, count = 0;
-        for (Score score : scores) {
-            avg += score.value;
-            count++;
-        }
-        avg = avg / count;
-        return avg;
-    }
-}
-
-class Score{
-    String course;
-    int value;
-
-    public Score(String course, int value) {
-        this.course = course;
-        this.value = value;
-    }
-
-    @Override
-    public String toString() {
-        return "Score{" +
-                "course='" + course + '\'' +
-                ", value=" + value +
-                '}';
-    }
-}
 public class program {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -109,7 +10,7 @@ public class program {
 
         people.add(new Teacher(333,"yonatan", "idan", Status.married, 15325));
 
-        people.add(new Student(123,"niv", "chen", Status.single, new ArrayList<Score>()));
+        people.add(new Student(123,"niv", "chen", Status.single, new ArrayList<>()));
 
         while (true) {
             System.out.println(
@@ -154,7 +55,7 @@ public class program {
                     int wage = in.nextInt();
                     System.out.println("add " + new Teacher(ID,firstName, lastName, status, wage));
                     people.add(new Teacher(ID,firstName, lastName, status, wage));
-                }; break;
+                } break;
                 case 2: {
                     System.out.print("Enter ID: ");
                     int ID = in.nextInt();
@@ -176,9 +77,9 @@ public class program {
                         case 3: status = Status.divorcee; break;
                         default: status = Status.single; break;
                     }
-                    System.out.println("add " + new Student(ID, firstName, lastName, status, new ArrayList<Score>()));
-                    people.add(new Student(ID, firstName, lastName, status, new ArrayList<Score>()));
-                }; break;
+                    System.out.println("add " + new Student(ID, firstName, lastName, status, new ArrayList<>()));
+                    people.add(new Student(ID, firstName, lastName, status, new ArrayList<>()));
+                } break;
                 case 3: {
                     for (person person : people) {
                         System.out.println(person.toString());
@@ -211,7 +112,7 @@ public class program {
                         }
                     }
 //                    System.out.println("Doesn't exists"); break;
-                } break; // todo: need to fix if not in list sout
+                } break; // todo: need to fix if not in list
                 case 7: {
                     System.out.print("please write the ID of Student: ");
                     int id = in.nextInt();
@@ -277,7 +178,7 @@ public class program {
                             for (int i = 0; i < ((Student)person).scores.size(); i++){
                                 if (((Student)person).scores.get(i).value >= minScore &&
                                         ((Student)person).scores.get(i).value <= maxScore){
-                                    System.out.println(person.toString() +" "+ ((Student)person).scores.get(i));
+                                    System.out.println(person +" "+ ((Student)person).scores.get(i));
                                 }
                             }
                         }
