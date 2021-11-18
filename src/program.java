@@ -29,6 +29,7 @@ class person{
                 ", status=" + status +
                 '}';
     }
+
 }
 
 class Teacher extends person{
@@ -59,6 +60,10 @@ class Student extends person{
         this.scores = scores;
     }
 
+    public void addScore(String course, int value){
+        this.scores.add(new Score(course, value));
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -66,8 +71,6 @@ class Student extends person{
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", status=" + status +
-                ", scores=" + scores.toString() +
-                ", Average Score=" + getAverageScore() +
                 '}';
     }
 
@@ -81,6 +84,7 @@ class Student extends person{
         return avg;
     }
 }
+
 class Score{
     String course;
     int value;
@@ -101,16 +105,11 @@ class Score{
 public class program {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        ArrayList<Teacher> Teachers = new ArrayList<Teacher>();
+        ArrayList<person> people = new ArrayList<>();
 
-        Teacher yonatan = new Teacher(3,"yonatan", "idan", Status.married, 15325);
-        System.out.println(yonatan);
+        people.add(new Teacher(333,"yonatan", "idan", Status.married, 15325));
 
-        ArrayList<Score> array = new ArrayList<Score>();
-        array.add(new Score("math", 55));
-        array.add(new Score("math", 99));
-        Student yaniv = new Student(3,"yaniv", "chen", Status.single, array);
-        System.out.println(yaniv);
+        people.add(new Student(123,"niv", "chen", Status.single, new ArrayList<Score>()));
 
         while (true) {
             System.out.println(
@@ -131,13 +130,13 @@ public class program {
 
             switch (MenuA) {
                 case 1: {
-                    System.out.println("Enter ID: ");
+                    System.out.print("Enter ID: ");
                     int ID = in.nextInt();
-                    System.out.println("Enter first name: ");
+                    System.out.print("Enter first name: ");
                     String firstName = in.next();
-                    System.out.println("Enter last name: ");
+                    System.out.print("Enter last name: ");
                     String lastName = in.next();
-                    System.out.println(
+                    System.out.print(
                             "Status:\n" +
                                     "-----\n" +
                                     "1) single\n" +
@@ -147,56 +146,146 @@ public class program {
                     int statusCase = in.nextInt();
                     Status status;
                     switch (statusCase) {
-                        case 1: status = Status.single;
-                        case 2: status = Status.married;
-                        case 3: status = Status.divorcee;
-                        default: status = Status.single;
+                        case 2: status = Status.married; break;
+                        case 3: status = Status.divorcee; break;
+                        default: status = Status.single; break;
                     }
-                    System.out.println("Enter wage: ");
+                    System.out.print("Enter wage: ");
                     int wage = in.nextInt();
-                    Teachers.add(new Teacher(ID,firstName, lastName, status, wage));
+                    System.out.println("add " + new Teacher(ID,firstName, lastName, status, wage));
+                    people.add(new Teacher(ID,firstName, lastName, status, wage));
                 }; break;
-                case 2: System.out.println("Action Two"); break;
-                case 3: System.out.println("Action Three"); break;
-                case 4: System.out.println("Action Three"); break;
-                case 5: System.out.println("Action Three"); break;
-                case 6: System.out.println("Action Three"); break;
-                case 7: {
-                    System.out.println(
-                            "Menu:\n" +
+                case 2: {
+                    System.out.print("Enter ID: ");
+                    int ID = in.nextInt();
+                    System.out.print("Enter first name: ");
+                    String firstName = in.next();
+                    System.out.print("Enter last name: ");
+                    String lastName = in.next();
+                    System.out.print(
+                            "Status:\n" +
                                     "-----\n" +
-                                    "A) Show All Scores\n" +
-                                    "B) Insert a new Score\n" +
-                                    "C) Show Average Score\n" +
-                                    "D) Remove Score by Index\n" +
-                                    "E) Return to the main menu\n"
+                                    "1) single\n" +
+                                    "2) married\n" +
+                                    "3) divorcee\n"
                     );
-                    System.out.print("Enter Option Number:");
-                    String MenuB = in.next().toUpperCase(Locale.ROOT);
-                    switch (MenuB) {
-                        case "A":
-                            System.out.println("Action One");
-                            break;
-                        case "B":
-                            System.out.println("Action Two");
-                            break;
-                        case "C":
-                            System.out.println("Action Three");
-                            break;
-                        case "D":
-                            System.out.println("Action Three");
-                            break;
-                        case "E":
-                            System.out.println("Action Three");
-                            break;
-                        default:
-                            System.out.println("Error: Invalid Option Number!");
-                            break;
+                    int statusCase = in.nextInt();
+                    Status status;
+                    switch (statusCase) {
+                        case 2: status = Status.married; break;
+                        case 3: status = Status.divorcee; break;
+                        default: status = Status.single; break;
+                    }
+                    System.out.println("add " + new Student(ID, firstName, lastName, status, new ArrayList<Score>()));
+                    people.add(new Student(ID, firstName, lastName, status, new ArrayList<Score>()));
+                }; break;
+                case 3: {
+                    for (person person : people) {
+                        System.out.println(person.toString());
                     }
                 } break;
-                case 8: System.out.println("Action Three"); break;
+                case 4: {
+                    for (person person : people) {
+                        if (person instanceof Teacher){
+                        System.out.println((Teacher)person);
+                        }
+                    }
+                } break;
+                case 5: {
+                    for (person person : people) {
+                        if (person instanceof Student){
+                            System.out.println((Student)person);
+                        }
+                    }
+                } break;
+                case 6: {
+                    // print teacher by id
+                    System.out.print("please write the ID of Teacher: ");
+                    int id = in.nextInt();
+                    for (person person : people) {
+                        if (person.id == id){
+                            if (person instanceof Teacher) {
+                                System.out.println((Teacher) person); break;
+                            }
+//                            else System.out.println("Not a Teacher"); break;
+                        }
+                    }
+//                    System.out.println("Doesn't exists"); break;
+                } break; // todo: need to fix if not in list sout
+                case 7: {
+                    System.out.print("please write the ID of Student: ");
+                    int id = in.nextInt();
+                    for (person person : people) {
+                        if (person.id == id){
+                            if (person instanceof Student) {
+                                System.out.println((Student) person);
+                                boolean running = true;
+                                while (running){
+                                    System.out.println(
+                                            "Menu:\n" +
+                                                    "-----\n" +
+                                                    "A) Show All Scores\n" +
+                                                    "B) Insert a new Score\n" +
+                                                    "C) Show Average Score\n" +
+                                                    "D) Remove Score by Index\n" +
+                                                    "E) Return to the main menu\n"
+                                    );
+                                    System.out.print("Enter Option:");
+                                    String MenuB = in.next().toUpperCase(Locale.ROOT);
+                                    switch (MenuB) {
+                                        case "A":{
+                                            if (((Student) person).scores.size() > 0){
+                                                for(int n = 0; n < ((Student) person).scores.size(); n++){
+                                                    System.out.println(n + ") "+ ((Student) person).scores.get(n));
+                                                }
+                                            } else System.out.println("Its a empty list");
+                                        } break;
+                                        case "B": {
+                                            System.out.println("which course do you want to add? ");
+                                            String course = in.next();
+                                            System.out.println("what is the score? ");
+                                            int score = in.nextInt();
+                                            ((Student) person).addScore(course, score);
+                                        } break;
+                                        case "C":{
+                                            if (((Student) person).scores.size() > 0) {
+                                                System.out.println("the Average Score is: " + ((Student) person).getAverageScore());
+                                            } else System.out.println("Its a empty list");
+                                        } break;
+                                        case "D":{
+                                            System.out.println("choose by index to remove score: ");
+                                            int index = in.nextInt();
+                                            ((Student) person).scores.remove(index);
+                                        } break;
+                                        case "E":
+                                            running = false; break;
+                                        default:
+                                            System.out.println("Error: Invalid Option Number!"); break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } break;
+                case 8: {
+                    System.out.print("enter min score: ");
+                    int minScore = in.nextInt();
+                    System.out.print("enter max score: ");
+                    int maxScore = in.nextInt();
+                    for (person person : people){
+                        if (person instanceof Student){
+                            for (int i = 0; i < ((Student)person).scores.size(); i++){
+                                if (((Student)person).scores.get(i).value >= minScore &&
+                                        ((Student)person).scores.get(i).value <= maxScore){
+                                    System.out.println(person.toString() +" "+ ((Student)person).scores.get(i));
+                                }
+                            }
+                        }
+                    }
+                } break;
                 case 0: System.out.println("Quitting...");  return;
                 default: System.out.println("Error: Invalid Option Number!");
+                //todo: fix empty scores
             }
         }
     }
