@@ -12,11 +12,10 @@ public class person {
 
     @Override
     public String toString() {
-        return "person{" +
+        return "person:" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", status=" + status +
-                '}';
+                ", firstName=" + firstName +
+                ", lastName=" + lastName +
+                ", status=" + status;
     }
 }

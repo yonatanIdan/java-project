@@ -7,6 +7,10 @@ public class Student extends person {
         super(id, firstName, lastName, status);
         this.scores = scores;
     }
+    public Student(int id, String firstName, String lastName, Status status) {
+        super(id, firstName, lastName, status);
+        this.scores = new ArrayList<Score>();
+    }
 
     public void addScore(String course, int value){
         this.scores.add(new Score(course, value));
@@ -14,12 +18,11 @@ public class Student extends person {
 
     @Override
     public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", status=" + status +
-                '}';
+        return "Student:" +
+                "ID=" + id +
+                ", First Name=" + firstName +
+                ", Last Name=" + lastName +
+                ", Status=" + status + ".";
     }
 
     public int getAverageScore(){

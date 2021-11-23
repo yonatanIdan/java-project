@@ -8,9 +8,9 @@ public class program {
         Scanner in = new Scanner(System.in);
         ArrayList<person> people = new ArrayList<>();
 
-        people.add(new Teacher(333,"yonatan", "idan", Status.married, 15325));
-
-        people.add(new Student(123,"niv", "chen", Status.single, new ArrayList<>()));
+//        people.add(new Teacher(333,"yonatan", "idan", Status.married, 15325));
+//
+//        people.add(new Student(123,"niv", "chen", Status.single, new ArrayList<>()));
 
         while (true) {
             System.out.println(
@@ -31,54 +31,16 @@ public class program {
 
             switch (MenuA) {
                 case 1: {
-                    System.out.print("Enter ID: ");
-                    int ID = in.nextInt();
-                    System.out.print("Enter first name: ");
-                    String firstName = in.next();
-                    System.out.print("Enter last name: ");
-                    String lastName = in.next();
-                    System.out.print(
-                            "Status:\n" +
-                                    "-----\n" +
-                                    "1) single\n" +
-                                    "2) married\n" +
-                                    "3) divorcee\n"
-                    );
-                    int statusCase = in.nextInt();
-                    Status status;
-                    switch (statusCase) {
-                        case 2: status = Status.married; break;
-                        case 3: status = Status.divorcee; break;
-                        default: status = Status.single; break;
-                    }
+                    person teacher = helper.addPerson();
                     System.out.print("Enter wage: ");
                     int wage = in.nextInt();
-                    System.out.println("add " + new Teacher(ID,firstName, lastName, status, wage));
-                    people.add(new Teacher(ID,firstName, lastName, status, wage));
+                    System.out.println("add " + new Teacher(teacher.id,teacher.firstName, teacher.lastName, teacher.status, wage));
+                    people.add(new Teacher(teacher.id,teacher.firstName, teacher.lastName, teacher.status, wage));
                 } break;
                 case 2: {
-                    System.out.print("Enter ID: ");
-                    int ID = in.nextInt();
-                    System.out.print("Enter first name: ");
-                    String firstName = in.next();
-                    System.out.print("Enter last name: ");
-                    String lastName = in.next();
-                    System.out.print(
-                            "Status:\n" +
-                                    "-----\n" +
-                                    "1) single\n" +
-                                    "2) married\n" +
-                                    "3) divorcee\n"
-                    );
-                    int statusCase = in.nextInt();
-                    Status status;
-                    switch (statusCase) {
-                        case 2: status = Status.married; break;
-                        case 3: status = Status.divorcee; break;
-                        default: status = Status.single; break;
-                    }
-                    System.out.println("add " + new Student(ID, firstName, lastName, status, new ArrayList<>()));
-                    people.add(new Student(ID, firstName, lastName, status, new ArrayList<>()));
+                    person student = helper.addPerson();
+                    System.out.println("add " + new Student(student.id, student.firstName, student.lastName, student.status));
+                    people.add(new Student(student.id, student.firstName, student.lastName, student.status));
                 } break;
                 case 3: {
                     for (person person : people) {
@@ -88,7 +50,7 @@ public class program {
                 case 4: {
                     for (person person : people) {
                         if (person instanceof Teacher){
-                        System.out.println((Teacher)person);
+                            System.out.println((Teacher)person);
                         }
                     }
                 } break;
@@ -100,28 +62,29 @@ public class program {
                     }
                 } break;
                 case 6: {
-                    // print teacher by id
                     System.out.print("please write the ID of Teacher: ");
                     int id = in.nextInt();
-                    for (person person : people) {
-                        if (person.id == id){
-                            if (person instanceof Teacher) {
-                                System.out.println((Teacher) person); break;
-                            }
-//                            else System.out.println("Not a Teacher"); break;
+                    for (int i = 0; i < people.size(); i++) {
+                        if (people.get(i).id == id){
+                            if (people.get(i) instanceof Teacher) {
+                                System.out.println((Teacher) people.get(i));
+                            } else {
+                                System.out.println("Not a Teacher");
+                            } break;
                         }
+                        if(i == people.size()-1) {System.out.println("Doesn't exists"); break;}
                     }
-//                    System.out.println("Doesn't exists"); break;
-                } break; // todo: need to fix if not in list
+                } break;
                 case 7: {
                     System.out.print("please write the ID of Student: ");
                     int id = in.nextInt();
-                    for (person person : people) {
-                        if (person.id == id){
+                    for (int i = 0; i < people.size(); i++) {
+                        person person = people.get(i);
+                        if (person.id == id) {
                             if (person instanceof Student) {
                                 System.out.println((Student) person);
                                 boolean running = true;
-                                while (running){
+                                while (running) {
                                     System.out.println(
                                             "Menu:\n" +
                                                     "-----\n" +
@@ -134,37 +97,51 @@ public class program {
                                     System.out.print("Enter Option:");
                                     String MenuB = in.next().toUpperCase(Locale.ROOT);
                                     switch (MenuB) {
-                                        case "A":{
-                                            if (((Student) person).scores.size() > 0){
-                                                for(int n = 0; n < ((Student) person).scores.size(); n++){
-                                                    System.out.println(n + ") "+ ((Student) person).scores.get(n));
+                                        case "A": {
+                                            if (((Student) person).scores.size() > 0) {
+                                                for (int n = 0; n < ((Student) person).scores.size(); n++) {
+                                                    System.out.println(n + ") " + ((Student) person).scores.get(n));
                                                 }
                                             } else System.out.println("Its a empty list");
-                                        } break;
+                                        }
+                                        break;
                                         case "B": {
                                             System.out.println("which course do you want to add? ");
                                             String course = in.next();
                                             System.out.println("what is the score? ");
                                             int score = in.nextInt();
                                             ((Student) person).addScore(course, score);
-                                        } break;
-                                        case "C":{
+                                        }
+                                        break;
+                                        case "C": {
                                             if (((Student) person).scores.size() > 0) {
                                                 System.out.println("the Average Score is: " + ((Student) person).getAverageScore());
                                             } else System.out.println("Its a empty list");
-                                        } break;
-                                        case "D":{
-                                            System.out.println("choose by index to remove score: ");
-                                            int index = in.nextInt();
-                                            ((Student) person).scores.remove(index);
-                                        } break;
+                                        }
+                                        break;
+                                        case "D": {
+                                            if (((Student) person).scores.size() > 0){
+                                                System.out.println("choose by index to remove score: ");
+                                                int index = in.nextInt();
+                                                ((Student) person).scores.remove(index);
+                                            }
+                                        }
+                                        break;
                                         case "E":
-                                            running = false; break;
+                                            running = false;
+                                            break;
                                         default:
-                                            System.out.println("Error: Invalid Option Number!"); break;
+                                            System.out.println("Error: Invalid Option Number!");
+                                            break;
                                     }
                                 }
-                            }
+                            } else {
+                                System.out.println("Not a Student");
+                            } break;
+                        }
+                        if(i == people.size()-1) {
+                            System.out.println("Doesn't exists");
+                            break;
                         }
                     }
                 } break;
@@ -186,7 +163,6 @@ public class program {
                 } break;
                 case 0: System.out.println("Quitting...");  return;
                 default: System.out.println("Error: Invalid Option Number!");
-                //todo: fix empty scores
             }
         }
     }

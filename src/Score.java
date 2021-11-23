@@ -9,9 +9,8 @@ public class Score {
 
     @Override
     public String toString() {
-        return "Score{" +
-                "course='" + course + '\'' +
-                ", value=" + value +
-                '}';
+        return "Score: " +
+                "course= " + course +
+                ", value= " + value + ".";
     }
 }

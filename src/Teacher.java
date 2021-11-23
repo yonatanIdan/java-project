@@ -8,12 +8,11 @@ public class Teacher extends person{
 
     @Override
     public String toString() {
-        return "teacher{" +
+        return "teacher: " +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", firstName= " + firstName +
+                ", lastName= " + lastName +
                 ", status=" + status +
-                ", wage=" + wage +
-                '}';
+                ", wage=" + wage + ".";
     }
 }
